@@ -93,18 +93,8 @@ class ProductManager {
         }
     }
 
-    addProduct = async (product/* title, description, price, thumbnail, code, stock */) => {
+    addProduct = async (product) => {
         try {
-            /* const product =
-            {
-                title,
-                description,
-                price,
-                thumbnail,
-                code,
-                stock
-            }
- */
             const products = await this.getProducts();
 
             if (products.length === 0) {
@@ -124,16 +114,42 @@ class ProductManager {
         }
     }
 
-    /* getProductById = (idProduct) => {
-        const productId = this.products.find(product => product.id === idProduct);
+    getProductById = async (idProduct) => {
+        try {
+            const products = await this.getProducts();
+            const productId = products.find(product => product.id === idProduct);
 
-        if (!productId) {
-            console.log('Producto no encontrado');
-            return;
-        } else {
-            console.log(productId);
+            if (!productId) {
+                console.log('Producto no encontrado');
+                return;
+            } else {
+                console.log(productId);
+            }
+        } catch (error) {
+            console.log(error);
         }
-    } */
+    }
+
+    deleteProduct = async (idProduct) => {
+        try {
+            const products = await this.getProducts();
+            const productId = products.find(product => product.id === idProduct);
+
+            if (!productId) {
+                console.log('Producto no encontrado');
+                return;
+            } else {
+                products.splice(idProduct)
+            }
+            
+            await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
+
+            return products;
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
 }
 
 module.exports = {

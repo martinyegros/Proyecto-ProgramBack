@@ -2,17 +2,12 @@ const { ProductManager } = require("./managers/ProductManager");
 
 const manager = new ProductManager('./files/Productos.json');
 
-const arrayProduct = async () => {
-    const gp = await manager.getProducts();
-    console.log(gp)
-}
-
 const agrProd = async () => {
 
-    const productos = await manager.addProduct();
+    const productos = await manager.getProducts();
     console.log(productos);
 
-    const producto = {
+    const product = {
         title: 'producto prueba',
         description: 'Este es un producto prueba',
         price: 200,
@@ -21,17 +16,19 @@ const agrProd = async () => {
         stock: 25
     };
 
-    await manager.addProduct(producto);
+    await manager.addProduct(product);
 
-    const productosResultadoFinal = await manager.addProduct();
+    const productosResultadoFinal = await manager.getProducts();
     console.log(productosResultadoFinal);
+
+    const idProdExistente = await manager.getProductById(1)
+    console.log(idProdExistente)
+
+    const idProdNoExistente = await manager.getProductById(100)
+    console.log(idProdNoExistente)
+
+    const eliminarId = await manager.deleteProduct(3)
+    console.log(eliminarId)
 }
 
-//Llamado de getProducts
-arrayProduct();
-//Llamado de addProduct
 agrProd();
-/* //Id generado sin repetirse
-agrProd();
-//Llamado de getProducts
-arrayProduct(); */
