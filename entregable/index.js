@@ -21,14 +21,17 @@ const agrProd = async () => {
     const productosResultadoFinal = await manager.getProducts();
     console.log(productosResultadoFinal);
 
-    const idProdExistente = await manager.getProductById(1)
-    console.log(idProdExistente)
+    const idProdExistente = await manager.getProductById(1);
+    console.log(idProdExistente);
 
-    const idProdNoExistente = await manager.getProductById(100)
-    console.log(idProdNoExistente)
+    const idProdNoExistente = await manager.getProductById(100);
+    console.log(idProdNoExistente);
 
-    const eliminarId = await manager.deleteProduct(3)
-    console.log(eliminarId)
+    const modificarProducto = await manager.updateProduct(2, { title:'Turmalina Negra', price: 600, code: 'PROD-002', stock: 45 });
+    console.log(modificarProducto);
+
+    const eliminarId = await manager.deleteProduct(3);
+    console.log(eliminarId);
 }
 
 agrProd();
