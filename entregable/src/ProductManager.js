@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs';
 
-class ProductManager {
+export default class ProductManager {
     
     constructor(path) {
         this.path = path;
@@ -46,12 +46,8 @@ class ProductManager {
             const products = await this.getProducts();
             const productId = products.find(product => product.id === idProduct);
 
-            if (!productId) {
-                console.log('Producto no encontrado');
-                return;
-            } else {
-                console.log(productId);
-            }
+            return productId;
+            
         } catch (error) {
             console.log(error);
         }
@@ -99,8 +95,4 @@ class ProductManager {
         }
         
     }
-}
-
-module.exports = {
-    ProductManager
 }
