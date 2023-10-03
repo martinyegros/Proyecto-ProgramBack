@@ -44,9 +44,9 @@ export default class ProductManager {
     getProductById = async (idProduct) => {
         try {
             const products = await this.getProducts();
-            const productId = products.find(product => product.id === idProduct);
+            const productById = products.find(product => product.id === idProduct);
 
-            return productId;
+            return productById;
             
         } catch (error) {
             console.log(error);
@@ -56,14 +56,14 @@ export default class ProductManager {
     updateProduct = async (idProduct, updateData) => {
         try {
             const products = await this.getProducts();
-            const productId = products.findIndex(product => product.id === idProduct);
+            const productIndex = products.findIndex(product => product.id === idProduct);
 
-            if(productId === -1) {
+            if(productIndex === -1) {
                 console.log('Producto no encontrado');
                 return;
             } else {
-                const updatedProduct = { ...products[productId], ...updateData}
-                products[productId] = updatedProduct;
+                const updatedProduct = { ...products[productIndex], ...updateData}
+                products[productIndex] = updatedProduct;
             }
 
         await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
@@ -93,6 +93,5 @@ export default class ProductManager {
         } catch (error) {
             console.log(error);
         }
-        
     }
 }
