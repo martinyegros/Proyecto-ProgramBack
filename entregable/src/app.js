@@ -12,6 +12,4 @@ app.use('static-files', express.static(`${__dirname}/public`));
 app.use('/api/products', routerProducts);
 app.use('/api/carts', routerCarts);
 
-app.listen(8080, () => {
-    console.log('Listening on port 8080')
-});
+app.listen(8080, () => console.log('Listening on port 8080')); 

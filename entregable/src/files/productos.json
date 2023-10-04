@@ -1,0 +1,46 @@
+[
+	{
+		"title": "Celestina",
+		"description": "Piedra energética de calma",
+		"price": 350,
+		"thumbnail": "https://www.reino-minerales.es/wp-content/uploads/2019/05/pierre-celestine.jpg",
+		"code": "CODE-001",
+		"stock": 15,
+		"status": true,
+		"category": "piedras",
+		"id": 1
+	},
+	{
+		"title": "Turmalina Negra",
+		"description": "Piedra energética de protección",
+		"price": 460,
+		"thumbnail": "https://www.gemascanarias.com/img/cms/turmalina-negra-en-bruto.jpg",
+		"code": "CODE-002",
+		"stock": 25,
+		"status": true,
+		"category": "piedras",
+		"id": 2
+	},
+	{
+		"title": "Amatista",
+		"description": "Piedra energética de felicidad",
+		"price": 500,
+		"thumbnail": "https://vivescortadaimport.com/diccionario-minerales/minerales/amatista/amatista-mineral.jpg",
+		"code": "CODE-003",
+		"stock": 40,
+		"status": true,
+		"category": "piedras",
+		"id": 3
+	},
+	{
+		"title": "Citrino",
+		"description": "Piedra energética de prosperidad",
+		"price": 520,
+		"thumbnail": "https://www.tierradegemas.com/blog/wp-content/uploads/2021/01/Cuarzo-Citrino.jpg",
+		"code": "CODE-004",
+		"stock": 22,
+		"status": true,
+		"category": "piedras",
+		"id": 4
+	}
+]

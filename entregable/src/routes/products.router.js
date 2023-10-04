@@ -13,12 +13,12 @@ router.get('/', async (req, res) => {
 
         if(cantidad) {
             const result = products.slice(0, cantidad)
-            res.send({ status: success, payload: result})
+            res.send({ status: 'success', payload: result})
         } else {
             res.send({ status: 'success', payload: products})
         }
     } catch (error) {
-        res.status(400).send({ error: 'Producto no encontrado' });
+        res.status(400).send({ status: 'error', error: 'Producto no encontrado' });
     }
 })
 
@@ -28,7 +28,7 @@ router.get('/:pid', async (req, res) => {
 
         res.send({ status: 'succes', payload: idProdExistente});
     } catch (error) {
-        res.status(404).send({ error: 'Producto no encontrado'})
+        res.status(404).send({ status: 'error', error: 'Producto no encontrado'})
     }
 })
 
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 
         res.status(200).send({ status: 'success', payload: product });
     } catch (error) {
-        return res.status(400).send({ error: 'Producto no encontrado'})
+        return res.status(400).send({ status: 'error', error: 'Producto no encontrado'})
     }
 })
 
@@ -54,7 +54,7 @@ router.put('/:pid', async (req, res) => {
         res.send({ status: 'success', payload: await productManager.getProductById(idProduct) });
 
     } catch (error) {
-        res.status(500).send('Error obteniendo productos: ' + error)
+        res.status(500).send({error: 'Error al actualizarlo'})
     }
 })
 
@@ -64,9 +64,11 @@ router.delete('/:pid', async (req, res) => {
 
         await productManager.deleteProduct(idProduct);
 
-        res.status(200).send({ status: 'success' });
+        res.status(200).send({ status: 'success', message: 'Producto eliminado'});
     }
     catch (error) {
-        res.status(400).send({ error: error.message }); 
+        res.status(400).send({ status: 'error', error: error.message }); 
     }
 })
+
+export default router;

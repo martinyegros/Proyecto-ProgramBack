@@ -78,18 +78,14 @@ export default class ProductManager {
     deleteProduct = async (idProduct) => {
         try {
             const products = await this.getProducts();
-            const productId = products.filter(product => product.id === idProduct);
+            const productId = products.findIndex(product => product.id === idProduct);
 
-            if (!productId) {
-                console.log('Producto no encontrado');
-                return;
+            if (productId != -1) {
+                products.splice(productId, 1);
+                await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
             } else {
-                products.splice(idProduct)
+                console.log('Producto no encontrado');
             }
-            
-            await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
-
-            return products;
         } catch (error) {
             console.log(error);
         }
