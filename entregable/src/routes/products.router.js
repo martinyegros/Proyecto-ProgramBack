@@ -39,6 +39,9 @@ router.post('/', async (req, res) => {
         await productManager.addProduct(product);
 
         res.status(200).send({ status: 'success', payload: product });
+
+        const io = req.app.get('socketio');
+        io.emit('showProducts', await productManager.getProducts());
     } catch (error) {
         return res.status(400).send({ status: 'error', error: 'Producto no encontrado'})
     }
@@ -65,6 +68,9 @@ router.delete('/:pid', async (req, res) => {
         await productManager.deleteProduct(idProduct);
 
         res.status(200).send({ status: 'success', message: 'Producto eliminado'});
+
+        const io = req.app.get('socketio');
+        io.emit('showProducts', await productManager.getProducts());
     }
     catch (error) {
         res.status(400).send({ status: 'error', error: error.message }); 

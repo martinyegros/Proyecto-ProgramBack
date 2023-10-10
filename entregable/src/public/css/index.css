@@ -1,0 +1,91 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.conts{
+    display: flex;
+}
+.form {
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 50%;
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background-color: #0098ff;
+}
+.form label {
+    margin: 20px;
+    text-align: center;
+    font-style: normal;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 120%;
+    line-height: 100%;
+    font-weight: 700;
+    color: white;
+}
+.form input, #ag-producto {
+    outline: none;
+    border: none;
+}
+#ag-producto {
+    height: 150px;
+    padding: 1rem;
+}
+#remover-producto{
+    height: 30px;
+    padding-left: 1rem;
+}
+
+.btn-producto {
+    margin-top: 10px;
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 3rem;
+    border: none;
+    font-weight: 700;
+    background-color: #63ebff;
+    color: black;
+}
+.btn-producto:hover {
+    cursor: pointer;
+    background-color: #b9ffff;
+}
+
+h1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 300%;
+    line-height: 100%;
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+}
+.cont-productos {
+    text-decoration: none;
+    display: flex;
+}
+
+.producto {
+    background-color: #0098ff;
+    color: black;
+    padding: 0;
+    margin: 10px;
+    padding: 10px;
+    width: fit-content;
+    height: fit-content;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+.producto li {
+    list-style-type: none;
+}
+.producto li span {
+    font-family: 'Quicksand', sans-serif;
+}

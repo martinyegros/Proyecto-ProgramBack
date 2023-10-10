@@ -22,6 +22,19 @@ export default class ProductManager {
 
     addProduct = async (product) => {
         try {
+            /* const products = await this.getProducts();
+
+            if (products.some(p => p.code === product.code)) {
+                throw new Error("You cannot add the product because a product with the same code already exists");
+            }
+
+            if (!product.title || !product.description || !product.price || !product.status || !product.code || !product.stock || !product.category) {
+                throw new Error("All fields are required to add a product.");
+            }
+            product.id = products.length === 0 ? 1 : products[products.length - 1].id + 1;
+            products.push(product);
+            await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
+            return product; */
             const products = await this.getProducts();
 
             if (products.length === 0) {
@@ -53,24 +66,32 @@ export default class ProductManager {
         }
     }
 
-    updateProduct = async (idProduct, updateData) => {
+    updateProduct = async (id, product) => {
         try {
             const products = await this.getProducts();
-            const productIndex = products.findIndex(product => product.id === idProduct);
+            const productIndex = products.findIndex(p => p.id === id);
 
-            if(productIndex === -1) {
-                console.log('Producto no encontrado');
-                return;
-            } else {
-                const updatedProduct = { ...products[productIndex], ...updateData}
-                products[productIndex] = updatedProduct;
+            if (productIndex != -1) {
+                if (products.some(p => p.code === product.code)) {
+                    throw new Error("You cannot update a product code with an existing one");
+                }
+                else {
+                    products[productIndex] = {
+                        title: product.title || products[productIndex].title,
+                        description: product.description || products[productIndex].description,
+                        price: product.price || products[productIndex].price,
+                        thumbnail: product.thumbnail || products[productIndex].thumbnail,
+                        code: product.code || products[productIndex].code,
+                        stock: product.stock || products[productIndex].stock,
+                        status: product.status || products[productIndex].status,
+                        category: product.category || products[productIndex].category,
+                        id: product.id || products[productIndex].id
+                    };
+
+                    await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
+                }
             }
-
-        await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
-
-        return products;
-
-        } catch (error) {
+        }catch (error) {
             console.log(error);
         }
     }

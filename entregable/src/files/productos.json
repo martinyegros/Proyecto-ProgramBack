@@ -42,5 +42,16 @@
 		"status": true,
 		"category": "piedras",
 		"id": 4
+	},
+	{
+		"title": "Ònix",
+		"description": "Piedra energética de fuerza",
+		"price": 620,
+		"thumbnail": "https://vivescortadaimport.com/diccionario-minerales/minerales/onix/onix.jpg",
+		"code": "CODE-005",
+		"stock": 32,
+		"status": true,
+		"category": "piedras",
+		"id": 5
 	}
 ]

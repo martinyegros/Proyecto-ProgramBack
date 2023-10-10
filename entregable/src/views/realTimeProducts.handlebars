@@ -1,0 +1,22 @@
+<h1>LISTA DE PRODUCTOS EN TIEMPO REAL</h1>
+<div id="container">
+    <div class="conts">
+        <form id="formulario1" class="form">
+            <label for="ag-producto">Ingrese un objeto como producto para agregar</label>
+            <textarea type="text" id="ag-producto" name="ag-producto"> </textarea>
+            <input type="submit" value="Agregar" class="btn-producto">
+        </form>
+    
+        <form id="formulario2" class="form">
+            <label for="remover-producto">Ingrese ID del producto a eliminar</label>
+            <input type="text" id="remover-producto" name="remover-producto">
+            <input type="submit" value="Eliminar" class="btn-producto">
+        </form>
+    </div>
+    <div id="productos-cont" class="cont-productos">
+
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
