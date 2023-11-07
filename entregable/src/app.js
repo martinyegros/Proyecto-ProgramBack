@@ -1,13 +1,10 @@
 import express from 'express';
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
 import handlebars from 'express-handlebars';
-import { Server } from "socket.io";
-import routerProducts from './routes/products.router.js';
-import { __dirname, productsFilePath } from './utils.js';
-import viewsRouter from './routes/views.router.js'
-import ProductManager from './managers/product.manager.js';
-
-
-const productManager = new ProductManager(productsFilePath);
+import __dirname from './utils.js';
+import viewsRouter from './routes/views.router.js';
+import mongoose from 'mongoose';
 
 const app = express();
 
@@ -18,11 +15,24 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
-app.use(express.static(`${__dirname}/public`));
 app.use('/', viewsRouter);
-app.use('/api/products', routerProducts);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
-const server = app.listen(8080, () => console.log('Listening on port 8080')); 
+const startServer = async () => {
+    try {
+        await mongoose.connect('mongodb+srv://martinyegros1:a4VUgRC3470YhLaT@clusterprogramback.rz2xhc0.mongodb.net/?retryWrites=true&w=majority')
+        console.log('DB conectada');
+        app.listen(8080, () => console.log('Listening on port 8080'));
+    }
+    catch (error) {
+        console.error('DB connección fallida', error.message);
+    }
+};
+
+startServer();
+
+/* const server = app.listen(8080, () => console.log('Listening on port 8080')); 
 
 const io = new Server(server);
 
@@ -51,4 +61,4 @@ io.on('connection', socket => {
             console.error(error);
         }
     });
-});
+}); */

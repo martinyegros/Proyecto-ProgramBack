@@ -1,42 +1,115 @@
 import { Router } from "express";
-import CartManager from '../managers/cart.manager.js';
-import ProductManager from "../managers/product.manager.js";
-import { __dirname, cartsFilePath, productsFilePath } from "../utils.js";   
+import Carts from "../dao/dbManagers/carts.managers.js";
 
 const router = Router();
-
-const cartManager = new CartManager(cartsFilePath);
-const productManager = new ProductManager(productsFilePath);
+const cartManager = new Carts();
 
 router.post('/', async (req, res) => {
-    await cartManager.addCart();
-    res.send({ status: 'success', message: 'Carrito' })
+    try {
+        const newCart = await cartManager.addCart();
+        res.status(201).send({ status: 'success', payload: newCart });
+    } catch (error) {
+        res.status(500).send({ status: 'error', payload: error.message });
+    }
 })
 
 router.get('/:cid', async (req, res) => {
     try {
-        const idProduct = Number(req.params.cid);
-        const products = await cartManager.getCartById(idProduct);
-        res.send({ status: 'success', payload: products.products });
+        const cart = await cartManager.getCartById(req.params.cid).populate('products.product').exec();
+
+        if (cart) {
+            res.status(200).send({ status: 'success', payload: cart.products });
+        } else {
+            res.status(404).send({ status: 'error', payload: 'Cart no encontrado' });
+        }
     } catch (error) {
-        res.status(400).send({ status: 'error', error: 'Producto no encontrado' });
+        res.status(500).send({ status: 'error', payload: error.message });
     }
 })
 
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
-        const idCart = Number(req.params.cid);
-        const idProduct = Number(req.params.pid);
+        const idCart = req.params.cid;
+        const idProd = req.params.pid;
 
-        const product = await productManager.getProductById(idProduct);
+        const cart = await cartManager.getCartById(idCart);
+        if (!cart) {
+            return res.status(404).send({ error: "Cart not found" });
+        }
 
-        await cartManager.updateCart(idCart, idProduct);
+        const productIndex = cart.products.findIndex(p => p.product.toString() === idProd);
 
-        res.status(200).send({ status: 'success' })
+        if (productIndex === -1) {
+            cart.products.push({ product: idProd, quantity: 1 });
+        } else {
+            cart.products[productIndex].quantity++;
+        }
+
+        const updatedCart = await cartManager.updateCart(idCart, cart.products);
+
+        res.status(200).send({ status: 'success', payload: updatedCart });
     }
-    catch(error) {
+    catch (error) {
         res.status(400).send({ error: error.message });
     }
-})
+});
+
+router.delete('/:cid/products/:pid', async (req, res) => {
+    try {
+        const idCart = req.params.cid;
+        const idProd = req.params.pid;
+
+        const result = await cartManager.deleteProduct(idCart, idProd);
+
+        res.status(200).send({ status: 'success', payload: result });
+    }
+    catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+router.put('/:cid ', async (req, res) => {
+    try {
+        const cartId = req.params["cid"];
+        const productsToUpdate = req.body.products;
+
+        const updatedCart = await cartManager.updateCartWithProducts(cartId, productsToUpdate);
+
+        res.status(200).send({ status: 'success', payload: updatedCart });
+    } catch (error) {
+        res.status(400).send({ status: 'error', payload: error.message });
+    }
+});
+
+router.put('/:cid/products/:pid', async (req, res) => {
+    try {
+        const idCart = req.params.cid;
+        const idProduct = req.params.pid;
+        const newQuantity = req.body.quantity;
+
+        const result = await cartManager.updateCart(idCart, {
+            'products.product': idProduct
+        }, {
+            $set: {
+                'products.$.quantity': newQuantity
+            }
+        });
+
+        res.status(200).send({ status: 'success', payload: result });
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+router.delete('/:cid', async (req, res) => {
+    try {
+        const idCart = req.params.cid;
+        const result = await cartManager.updateCart(idCart, { products: [] });
+        res.status(200).send({ status: 'success', payload: result });
+    }
+    catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
 
 export default router;

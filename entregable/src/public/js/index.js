@@ -1,4 +1,4 @@
-const socket = io();
+/* const socket = io();
 
 const container = document.getElementById('productos-cont');
 
@@ -36,4 +36,4 @@ form2.addEventListener('submit', (e) => {
 
     const id = document.getElementById('remover-producto').value;
     socket.emit('remover-producto',  id );
-});
+}); */

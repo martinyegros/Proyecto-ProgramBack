@@ -73,7 +73,7 @@ export default class ProductManager {
 
             if (productIndex != -1) {
                 if (products.some(p => p.code === product.code)) {
-                    throw new Error("You cannot update a product code with an existing one");
+                    throw new Error("Codigo de producto no existente");
                 }
                 else {
                     products[productIndex] = {
